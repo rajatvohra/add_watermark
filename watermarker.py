@@ -9,13 +9,13 @@ def input_type():
 file_type,quantity_type=input_type()
 
 def take_input():
-    path_file=input("input path of video \n")
+    path_file=input("input path(folder in case of multuple files) of video\image  \n")
     path_logo=input("input path of the water mark \n")
     pos=input("position from (bottom left/bottom right/top left/top right)\n")
     return path_file,path_logo,pos
 path_file,path_logo,pos=take_input()
 #####"",r"C:\Users\rajat vohra\Desktop\logo_r.png","top left"
-def logo_resize(path):
+def logo_resize(path=r"C:\Users\rajat vohra\Desktop\projects\watermark\logo"):
     logo=cv2.imread(path,cv2.IMREAD_COLOR)
     cv2.imshow("logo in real-time",logo)
     cv2.waitKey(1)
@@ -27,8 +27,15 @@ def logo_resize(path):
     if(input("do you want  to make further changes\n")=="yes"):
         logo_resize(path)
     else:
-        print("saving this as logo_resized.png")
-        cv2.imwrite("logo_resized.png",logo)
+        print("saving this in logo folder")
+        logo_dim="{}x{}_logo.png".format(x,y)
+        cur_dir=os.getcwd()
+        path_for_logo=cur_dir+"\\logo\\"+logo_dim
+        new_path=cur_dir+"\\logo\\"
+        if not os.path.exists(new_path):
+            os.makedirs(new_path)
+        cv2.imwrite(path_for_logo,logo)
+        print("the path for logo is {}".format(path_for_logo))
         return logo       
 if(input("do you want to make any changes to size of the logo? reply wiht a yes or no \n")=='yes'):
     logo=logo_resize(path_logo) 
